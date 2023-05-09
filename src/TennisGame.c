@@ -19,15 +19,28 @@ static void points2scoretxt()
 	char strSeg1[16];
 	char strSeg2[16];
 
-	if (player1_points < 3 && player2_points < 3) {
+	if (player1_points <= 3 && player2_points <= 3) {
 		strcpy(strSeg1, strPointScore[player1_points]);
 		strcpy(strSeg2, strPointScore[player2_points]);
 		strcpy(strScore, strSeg1);
 		strcat(strScore, "-");
-		if (player1_points == player2_points)
-			strcat(strScore, "All");
-		else
+		if (player1_points == player2_points) {
+			if (player1_points < 3)
+				strcat(strScore, "All");
+			else
+				strcpy(strScore, "Deuce");
+		} else
 			strcat(strScore, strSeg2);
+	} else if (player1_points == player2_points) {
+		strcpy(strScore, "Deuce");
+	} else if (player1_points - player2_points == 1) {
+		strcpy(strScore, "Advantage player1");
+	} else if (player2_points - player1_points == 1) {
+		strcpy(strScore, "Advantage player2");
+	} else if (player1_points - player2_points >= 2) {
+		strcpy(strScore, "Win for player1");
+	} else if (player2_points - player1_points >= 2) {
+		strcpy(strScore, "Win for player2");
 	}
 }
 
