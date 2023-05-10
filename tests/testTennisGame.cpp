@@ -43,7 +43,11 @@ TEST_GROUP(testTennisGame)
 
     }
 
-    void one_game(int p1, int p2, const char * expect) {
+    void one_game(int player1, int player2, const char * expect) {
+    	char strError[80];
+    	int p1 = player1;
+    	int p2 = player2;
+
     	TennisGame_init();
     	while (p1 > 0 || p2 > 0) {
     		if (p1 > 0) {
@@ -57,7 +61,8 @@ TEST_GROUP(testTennisGame)
     		}
     	}
 
-    	STRCMP_EQUAL(expect, TennisGame_getScore());
+    	sprintf(strError, "Player1: %i, Player2: %i, the score is incorrect!!!\n", player1, player2);
+    	STRCMP_EQUAL_TEXT(expect, TennisGame_getScore(), strError);
     }
 };
 
@@ -76,27 +81,27 @@ TEST(testTennisGame, test_multi_games)
 			{ 3, 0, "Forty-Love" },
 			{ 0, 3, "Love-Forty" },
 			{ 4, 0, "Win for player1" },
-    { 0, 4, "Win for player2" },
-    { 2, 1, "Thirty-Fifteen" },
-    { 1, 2, "Fifteen-Thirty" },
-    { 3, 1, "Forty-Fifteen" },
-    { 1, 3, "Fifteen-Forty" },
-    { 4, 1, "Win for player1" },
-    { 1, 4, "Win for player2" },
-    { 3, 2, "Forty-Thirty" },
-    { 2, 3, "Thirty-Forty" },
-    { 4, 2, "Win for player1" },
-    { 2, 4, "Win for player2" },
-    { 4, 3, "Advantage player1" },
-    { 3, 4, "Advantage player2" },
-    { 5, 4, "Advantage player1" },
-    { 4, 5, "Advantage player2" },
-    { 15, 14, "Advantage player1" },
-    { 14, 15, "Advantage player2" },
-    { 6, 4, "Win for player1" },
-    { 4, 6, "Win for player2" },
-    { 16, 14, "Win for player1" },
-    { 14, 16, "Win for player2" }, };
+			{ 0, 4, "Win for player2" },
+			{ 2, 1, "Thirty-Fifteen" },
+			{ 1, 2, "Fifteen-Thirty" },
+			{ 3, 1, "Forty-Fifteen" },
+			{ 1, 3, "Fifteen-Forty" },
+			{ 4, 1, "Win for player1" },
+			{ 1, 4, "Win for player2" },
+			{ 3, 2, "Forty-Thirty" },
+			{ 2, 3, "Thirty-Forty" },
+			{ 4, 2, "Win for player1" },
+			{ 2, 4, "Win for player2" },
+			{ 4, 3, "Advantage player1" },
+			{ 3, 4, "Advantage player2" },
+			{ 5, 4, "Advantage player1" },
+			{ 4, 5, "Advantage player2" },
+			{ 15, 14, "Advantage player1" },
+			{ 14, 15, "Advantage player2" },
+			{ 6, 4, "Win for player1" },
+			{ 4, 6, "Win for player2" },
+			{ 16, 14, "Win for player1" },
+			{ 14, 16, "Win for player2" }, };
 
     for (int i = 0; i < (int)(sizeof(param) / sizeof(param[0])); i++) {
     	one_game(param[i].player1Score, param[i].player2Score, param[i].expectedScore);
