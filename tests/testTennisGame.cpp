@@ -35,7 +35,7 @@ TEST_GROUP(testTennisGame)
 
     void setup()
     {
-    	TennisGame_init();
+    	TennisGame_init("player1", "player2");
     }
 
     void teardown()
@@ -47,16 +47,18 @@ TEST_GROUP(testTennisGame)
     	char strError[80];
     	int p1 = player1;
     	int p2 = player2;
+    	char p1_name[] = "Player1";
+    	char p2_name[] = "Player2";
 
-    	TennisGame_init();
+    	TennisGame_init(p1_name, p2_name);
     	while (p1 > 0 || p2 > 0) {
     		if (p1 > 0) {
-    			TennisGame_wonPoint("player1");
+    			TennisGame_wonPoint(p1_name);
     			p1--;
     		}
 
     		if (p2 > 0) {
-    			TennisGame_wonPoint("player2");
+    			TennisGame_wonPoint(p2_name);
     			p2--;
     		}
     	}
@@ -190,7 +192,7 @@ TEST(testTennisGame, test_wrong_player)
 {
 	char expect[] = "Love-All";
 
-	TennisGame_wonPoint("player3");
+	LONGS_EQUAL( -1, TennisGame_wonPoint("player3"));
 
 	STRCMP_EQUAL(expect, TennisGame_getScore());
 }

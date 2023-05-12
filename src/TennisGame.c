@@ -13,6 +13,7 @@ static int player2_points = 0;
 static char * strPointScore[] = {
 			"Love", "Fifteen", "Thirty", "Forty"
 		};
+static const char * player_name[2];
 
 /* Original version
 static void points2scoretxt()
@@ -46,6 +47,7 @@ static void points2scoretxt()
 }
 */
 
+// Refactored Rev.0.1
 static void points2scoretxt()
 {
 	char strSeg1[16];
@@ -78,19 +80,27 @@ static void points2scoretxt()
 	}
 }
 
-void TennisGame_init()
+void TennisGame_init(const char * player1, const char * player2)
 {
 	player1_points = 0;
 	player2_points = 0;
 	strScore[0] = '\0';
+	player_name[0] = player1;
+	player_name[1] = player2;
 }
 
-void TennisGame_wonPoint(const char * player)
+int TennisGame_wonPoint(const char * player)
 {
-	if (!strcmp(player, "player1"))
+	int err = 0;
+
+	if (!strcmp(player, player_name[0]))
 		player1_points++;
-	else if (!strcmp(player, "player2"))
+	else if (!strcmp(player, player_name[1]))
 		player2_points++;
+	else
+		err = -1;
+
+	return err;
 }
 
 char * TennisGame_getScore()
